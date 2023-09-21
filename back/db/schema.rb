@@ -10,9 +10,32 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_09_21_060122) do
+ActiveRecord::Schema.define(version: 2023_09_21_122755) do
 
   create_table "books", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "isbn", null: false
+    t.string "title", null: false
+    t.string "subtitle"
+    t.text "content"
+    t.string "contributor"
+    t.string "imprint"
+    t.string "publisher"
+    t.string "picture", null: false
+    t.integer "price"
+    t.date "publishing_date"
+    t.integer "audience_type"
+    t.integer "audience_code"
+    t.integer "c_code"
+    t.string "subject_text"
+    t.bigint "isbn_10", null: false
+    t.string "amazon_url", null: false
+    t.string "honto_url", null: false
+    t.datetime "discarded_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "next_day_books", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "isbn", null: false
     t.string "title", null: false
     t.string "subtitle"
