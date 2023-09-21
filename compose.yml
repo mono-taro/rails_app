@@ -1,0 +1,77 @@
+version: "3.7"
+
+volumes:
+  db-store:
+configs:
+  db-config:
+    file: ./infra/mysql/my.cnf
+
+services:
+  db:
+    container_name: db
+    build:
+      context: .
+      dockerfile: ./infra/mysql/Dockerfile
+    ports:
+      - target: 3306
+        published: ${DB_PUBLISHED_PORT:-3306}
+        protocol: tcp
+        mode: host
+    configs:
+      - source: db-config
+        target: /etc/my.cnf
+    volumes:
+      - type: volume
+        source: db-store
+        target: /var/lib/mysql
+        volume:
+          nocopy: true
+      - ./infra/mysql/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+    environment:
+      - MYSQL_DATABASE=${DB_DATABASE:-test}
+      - MYSQL_USER=${DB_USERNAME:-test}
+      - MYSQL_PASSWORD=${DB_PASSWORD:-password}
+      - MYSQL_ROOT_PASSWORD=${DB_PASSWORD:-password}
+    healthcheck:
+      test: "mysqladmin ping -h localhost -p${DB_PASSWORD}"
+      timeout: 2s
+      retries: 2
+
+  rails:
+    container_name: rails
+    build: back/
+    command: /bin/sh -c "rm -f tmp/pids/server.pid && rails s"
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - type: bind
+        source: ./back
+        target: /app
+    ports:
+      - 3000:3000
+    env_file: .env
+    tty: true
+
+  front:
+    container_name: nuxt_client
+    build: front/
+    volumes:
+      - ./front:/app
+    ports:
+      - 8080:3000
+    tty: true
+
+  web:
+    build:
+      context: .
+      dockerfile: ./infra/nginx/Dockerfile
+    volumes:
+      - ./infra/nginx/nginx.conf:/etc/nginx/nginx.conf
+    volumes_from:
+      - rails
+    ports:
+      - "80:80"
+    depends_on:
+      - rails
+    tty: true

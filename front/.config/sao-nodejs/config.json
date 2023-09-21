@@ -1,0 +1,14 @@
+{
+	"generators": {
+		"c3a15c3c": {
+			"type": "local",
+			"path": "/app/.npm/_npx/ea7c6e7510ea3309/node_modules/create-nuxt-app/lib",
+			"hash": "c3a15c3c"
+		}
+	},
+	"answers": {
+		"c3a15c3c__npm__": {
+			"gitUsername": ""
+		}
+	}
+}
