@@ -24,10 +24,8 @@
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
 #
-require "test_helper"
-
-class BookTest < ActiveSupport::TestCase
-  # test "the truth" do
-  #   assert true
-  # end
+class Book < ApplicationRecord
+  validates :isbn, :isbn_10, :amazon_url, :honto_url, presence: true, uniqueness: true
+  validates :title, :picture, presence: true
+  
 end
