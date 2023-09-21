@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: books
+# Table name: next_day_books
 #
 #  id              :bigint           not null, primary key
 #  amazon_url      :string(255)      not null
@@ -26,7 +26,7 @@
 #
 require "test_helper"
 
-class BookTest < ActiveSupport::TestCase
+class NextDayBookTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end

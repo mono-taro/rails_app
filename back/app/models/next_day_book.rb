@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: books
+# Table name: next_day_books
 #
 #  id              :bigint           not null, primary key
 #  amazon_url      :string(255)      not null
@@ -24,10 +24,7 @@
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
 #
-require "test_helper"
-
-class BookTest < ActiveSupport::TestCase
-  # test "the truth" do
-  #   assert true
-  # end
+class NextDayBook < ApplicationRecord
+  validates :isbn, :isbn_10, :amazon_url, :honto_url, presence: true, uniqueness: true
+  validates :title, :picture, presence: true
 end
