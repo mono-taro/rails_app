@@ -27,3 +27,6 @@
 /config/master.key
 
 .env
+.bash_history
+.irb_history
+.local/*
